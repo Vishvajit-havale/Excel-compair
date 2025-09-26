@@ -1,0 +1,22 @@
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+
+# Copy solution and project files
+COPY *.sln ./
+COPY "Excel compair/Excel compair.csproj" "Excel compair/"
+
+# Restore dependencies
+RUN dotnet restore "Excel compair/Excel compair.csproj"
+
+# Copy the rest of the code
+COPY . .
+
+# Publish app
+RUN dotnet publish "Excel compair/Excel compair.csproj" -c Release -o /app
+
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app .
+ENTRYPOINT ["dotnet", "Excel compair.dll"]
