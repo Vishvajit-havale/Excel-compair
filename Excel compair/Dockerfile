@@ -2,13 +2,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy csproj and restore
-COPY *.csproj ./
-RUN dotnet restore
+# Copy the csproj and restore
+COPY ["Excel compair/Excel compair.csproj", "Excel compair/"]
+RUN dotnet restore "Excel compair/Excel compair.csproj"
 
 # Copy everything else and build
-COPY . ./
-RUN dotnet publish -c Release -o /app/publish
+COPY . .
+RUN dotnet publish "Excel compair/Excel compair.csproj" -c Release -o /app/publish
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
