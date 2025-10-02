@@ -11,7 +11,7 @@ COPY . .
 RUN dotnet publish "Excel compair/Excel compair.csproj" -c Release -o /app/publish
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "Excel compair.dll"]
